@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Buddy — AP CSP Service-Learning Project</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Poppins', sans-serif; background: #f8faff; color: #1a1a2e; }
+
+  nav {
+    background: #1e3a5f; padding: 14px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+  .logo { color: white; font-size: 1.1rem; font-weight: 700; }
+  .logo span { color: #7dd3fc; }
+  .nav-links { display: flex; gap: 4px; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.85rem;
+    font-weight: 500; padding: 7px 14px; border-radius: 8px; transition: all 0.2s;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,0.12); color: white; }
+
+  .section { padding: 56px 40px; max-width: 880px; margin: 0 auto; }
+  .eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #2c5f8a; margin-bottom: 8px; }
+  h2 { font-size: 1.5rem; font-weight: 700; color: #1e3a5f; margin-bottom: 12px; line-height: 1.25; }
+  h2 span { color: #2c5f8a; }
+  p { font-size: 0.91rem; color: #4a5568; line-height: 1.8; }
+  .divider { border: none; border-top: 2px solid #e2e8f0; }
+
+  .hero {
+    background: linear-gradient(135deg, #1e3a5f, #2c5f8a);
+    color: white; padding: 68px 40px; text-align: center;
+  }
+  .hero .eyebrow { color: #7dd3fc; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 700; margin-bottom: 14px; line-height: 1.2; }
+  .hero h1 span { color: #7dd3fc; }
+  .hero p { font-size: 0.97rem; opacity: 0.8; max-width: 500px; margin: 0 auto; font-weight: 300; line-height: 1.8; }
+
+  .full-img { width: 100%; height: 300px; object-fit: cover; display: block; }
+
+  .split { display: flex; gap: 40px; align-items: center; flex-wrap: wrap; margin: 28px 0; }
+  .split.flip { flex-direction: row-reverse; }
+  .split-text { flex: 1; min-width: 240px; }
+  .split-img { flex: 1; min-width: 240px; }
+  .split-img img { width: 100%; border-radius: 12px; box-shadow: 0 6px 24px rgba(44,95,138,0.15); }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 24px; }
+  .card { background: white; border-radius: 12px; padding: 22px 20px; box-shadow: 0 3px 14px rgba(44,95,138,0.08); border-top: 3px solid #2c5f8a; }
+  .card h4 { font-size: 0.88rem; font-weight: 700; color: #1e3a5f; margin-bottom: 7px; }
+  .card p { font-size: 0.82rem; color: #666; line-height: 1.7; }
+
+  .quote {
+    background: #1e3a5f; color: white; border-radius: 14px;
+    padding: 32px 40px; margin: 36px 0; text-align: center;
+  }
+  .quote p { font-size: 1rem; font-weight: 300; font-style: italic; opacity: 0.9; line-height: 1.8; max-width: 620px; margin: 0 auto 10px; color: white; }
+  .quote cite { font-size: 0.78rem; color: #7dd3fc; font-style: normal; font-weight: 600; }
+
+  .highlight { background: #eff6ff; border-left: 4px solid #2c5f8a; border-radius: 8px; padding: 16px 20px; margin: 20px 0; font-size: 0.87rem; color: #1e3a5f; line-height: 1.7; }
+  .highlight strong { color: #2c5f8a; }
+
+  .stats { display: flex; gap: 12px; flex-wrap: wrap; margin: 28px 0; }
+  .stat { background: white; border-radius: 12px; padding: 18px; flex: 1; min-width: 110px; text-align: center; box-shadow: 0 3px 14px rgba(44,95,138,0.08); }
+  .stat .num { font-size: 1.8rem; font-weight: 700; color: #2c5f8a; display: block; }
+  .stat .lbl { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin-top: 4px; display: block; }
+
+  .timeline { padding-left: 22px; position: relative; margin-top: 24px; }
+  .timeline::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 2px; background: #cce0f0; }
+  .tl-item { position: relative; margin-bottom: 24px; }
+  .tl-item::before { content: ''; position: absolute; left: -20px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: #2c5f8a; border: 2px solid white; box-shadow: 0 0 0 3px #cce0f0; }
+  .tl-item h4 { font-size: 0.88rem; font-weight: 700; color: #1e3a5f; margin-bottom: 4px; }
+  .tl-item p { font-size: 0.82rem; color: #666; line-height: 1.7; }
+
+  .feedback { background: #fef9ec; border: 1px solid #fcd34d; border-radius: 12px; padding: 22px; margin-top: 28px; }
+  .feedback h4 { font-size: 0.88rem; font-weight: 700; color: #92400e; margin-bottom: 10px; }
+  .feedback ul { list-style: none; }
+  .feedback li { font-size: 0.83rem; color: #78350f; padding: 5px 0 5px 18px; position: relative; line-height: 1.6; border-bottom: 1px solid rgba(245,158,11,0.2); }
+  .feedback li:last-child { border-bottom: none; }
+  .feedback li::before { content: '→'; position: absolute; left: 0; color: #f59e0b; font-weight: 700; }
+
+  .team { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+  .team-card { background: white; border-radius: 12px; padding: 20px 16px; flex: 1; min-width: 130px; text-align: center; box-shadow: 0 3px 14px rgba(44,95,138,0.08); }
+  .avatar { width: 44px; height: 44px; background: #2c5f8a; color: white; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; }
+  .team-card h4 { font-size: 0.88rem; font-weight: 700; color: #1e3a5f; }
+
+  .page-banner { background: #f0f7ff; border-top: 3px solid #2c5f8a; padding: 24px 40px; text-align: center; }
+  .page-banner h2 { font-size: 1.25rem; color: #1e3a5f; margin-bottom: 0; }
+
+  @media (max-width: 600px) {
+    nav { padding: 12px 16px; }
+    .section { padding: 40px 20px; }
+    .hero { padding: 52px 20px; }
+    .split, .split.flip { flex-direction: column; }
+    .full-img { height: 200px; }
+    .quote { padding: 24px 20px; }
+    .page-banner { padding: 18px 20px; }
+  }
+
+  footer { background: #1e3a5f; color: rgba(255,255,255,0.5); text-align: center; padding: 20px; font-size: 0.78rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Study<span>Buddy</span></div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#problem">The Problem</a></li>
+    <li><a href="#solution">Our Solution</a></li>
+    <li><a href="#reflection">Reflection</a></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<div id="home">
+  <div class="hero">
+    <p class="eyebrow">AP CSP Service-Learning Project</p>
+    <h1>Meet <span>Study Buddy</span></h1>
+    <p>A student-built tool designed to help high schoolers stop procrastinating and start studying smarter through personalized, structured study plans.</p>
+  </div>
+
+  <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?w=1200&q=80" alt="Student studying" class="full-img">
+
+  <div class="section">
+    <div class="split">
+      <div class="split-text">
+        <p class="eyebrow">What is Study Buddy?</p>
+        <h2>A personalized study plan, <span>built around you.</span></h2>
+        <p>Study Buddy generates a custom day-by-day study schedule based on a student's subject, difficulty level, available time, and learning style. Students answer a few simple questions and receive a clear, actionable plan complete with study techniques and subject-specific tips.</p>
+        <div class="highlight"><strong>In one sentence:</strong> This app creates personalized study plans for struggling students to help them perform better in academics.</div>
+      </div>
+      <div class="split-img">
+        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&q=80" alt="Student writing a plan">
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><span class="num">3</span><span class="lbl">Stakeholder Groups</span></div>
+      <div class="stat"><span class="num">8+</span><span class="lbl">Subjects Covered</span></div>
+      <div class="stat"><span class="num">3</span><span class="lbl">Feedback Rounds</span></div>
+      <div class="stat"><span class="num">100%</span><span class="lbl">Personalized</span></div>
+    </div>
+
+    <br>
+    <p class="eyebrow">The Team</p>
+    <h2>Built by three students <span>with a shared goal.</span></h2>
+    <div class="team">
+      <div class="team-card"><div class="avatar">JR</div><h4>Jack Richmond</h4></div>
+      <div class="team-card"><div class="avatar">SG</div><h4>Santi Gonzalez</h4></div>
+      <div class="team-card"><div class="avatar">BH</div><h4>Beckham Hyslop</h4></div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- THE PROBLEM -->
+<div id="problem">
+  <div class="page-banner">
+    <p class="eyebrow">Investigation & Research</p>
+    <h2>The Why</h2>
+  </div>
+
+  <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1200&q=80" alt="Student stressed over books" class="full-img">
+
+  <div class="section">
+    <div class="split">
+      <div class="split-text">
+        <p class="eyebrow">Community Need</p>
+        <h2>A problem hiding <span>in plain sight.</span></h2>
+        <p>The inspiration came from a real person — Beckham's brother Miguel consistently struggled to study efficiently and dealt with serious stress around school. The more we looked into it, the more we realized he wasn't alone. Students everywhere wanted to do well but had no structured system to prepare for tests.</p>
+      </div>
+      <div class="split-img">
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80" alt="Students in classroom">
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>"Students struggle to study efficiently and deal with a lot of stress when it comes to school. All of this limits their academic success and makes life more stressful."</p>
+      <cite>— Study Buddy Team</cite>
+    </div>
+
+    <p class="eyebrow">Root Causes</p>
+    <h2>Why does this <span>keep happening?</span></h2>
+    <div class="cards">
+      <div class="card">
+        <h4>No Structured System</h4>
+        <p>Most students study without any plan, leading to procrastination and last-minute cramming that doesn't stick.</p>
+      </div>
+      <div class="card">
+        <h4>Generic Advice</h4>
+        <p>Teachers occasionally offer tips, but the advice is never personalized to the individual student's needs.</p>
+      </div>
+      <div class="card">
+        <h4>Poor Time Management</h4>
+        <p>Without a plan, students don't know how to spread their studying across days, leading to wasted time or missed topics.</p>
+      </div>
+    </div>
+
+    <br>
+    <p class="eyebrow">Our Research</p>
+    <h2>We asked. <span>People answered.</span></h2>
+    <p>We conducted interviews with students, teachers, and family members. In every single conversation, the same theme came up: efficiently managing study time is one of the biggest challenges students face.</p>
+    <div class="highlight"><strong>Key finding:</strong> Across all interviews, the inability to plan and manage study time was identified as the single biggest barrier to academic success.</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- OUR SOLUTION -->
+<div id="solution">
+  <div class="page-banner">
+    <p class="eyebrow">Innovation & Action</p>
+    <h2>The How</h2>
+  </div>
+
+  <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&q=80" alt="Coding on a laptop" class="full-img">
+
+  <div class="section">
+    <div class="split flip">
+      <div class="split-text">
+        <p class="eyebrow">The Solution</p>
+        <h2>A virtual study buddy — <span>built from scratch.</span></h2>
+        <p>We built Study Buddy using Scratch (scratch.mit.edu). The app guides students through a short series of questions about their workload, subject, and time before their assessment — then generates a personalized study plan designed around their specific needs.</p>
+      </div>
+      <div class="split-img">
+        <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=600&q=80" alt="Planning on paper">
+      </div>
+    </div>
+
+    <p class="eyebrow">Technical Highlights</p>
+    <h2>The AP CSP concepts <span>that made it work.</span></h2>
+    <div class="cards">
+      <div class="card">
+        <h4>Variables</h4>
+        <p>User inputs like subject and workload are stored as variables so the app can remember what the student said and build the right plan.</p>
+      </div>
+      <div class="card">
+        <h4>Conditional Statements</h4>
+        <p>if/else logic determines which study recommendation to display based on the student's answers.</p>
+      </div>
+      <div class="card">
+        <h4>Input to Output</h4>
+        <p>Students provide input through their answers, the program processes it, and a custom study plan is the output.</p>
+      </div>
+    </div>
+
+    <br>
+    <p class="eyebrow">Iterative Process</p>
+    <h2>We built it. We listened. <span>We improved it.</span></h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <h4>Round 1 — Initial Build</h4>
+        <p>Created the core app in Scratch with basic subject options and a working conditional logic system.</p>
+      </div>
+      <div class="tl-item">
+        <h4>Round 2 — Student & Family Feedback</h4>
+        <p>Added more subjects, widened the date range, and rewrote instructions to be clearer.</p>
+      </div>
+      <div class="tl-item">
+        <h4>Round 3 — Peer Review</h4>
+        <p>Classmates said the app felt plain and hard to navigate. We responded by adding images throughout to give users visual context at each step.</p>
+      </div>
+      <div class="tl-item">
+        <h4>Final Version</h4>
+        <p>8+ subjects, wider date range, clearer instructions, and images added throughout — a significantly more polished experience.</p>
+      </div>
+    </div>
+
+    <div class="feedback">
+      <h4>Peer Feedback — What We Changed</h4>
+      <ul>
+        <li>App felt plain and hard to navigate → <strong>Added images throughout for visual context</strong></li>
+        <li>Not enough subject options → <strong>Expanded to 8+ subjects</strong></li>
+        <li>Date range too limited → <strong>Widened to cover up to 14 days</strong></li>
+        <li>Instructions were confusing → <strong>Rewrote all guidance text to be clearer</strong></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- REFLECTION -->
+<div id="reflection">
+  <div class="page-banner">
+    <p class="eyebrow">Impact & Reflection</p>
+    <h2>The So What</h2>
+  </div>
+
+  <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80" alt="Students succeeding" class="full-img">
+
+  <div class="section">
+    <p class="eyebrow">Social Impact</p>
+    <h2>More than an app — <span>a shift in how students study.</span></h2>
+    <p>Study Buddy replaces the stress and guesswork of studying without a plan. Instead of procrastinating until it's too late, students have a structured, personalized schedule that tells them exactly what to do each day with built-in breaks and subject-specific tips.</p>
+
+    <div class="stats" style="margin-top: 24px;">
+      <div class="stat"><span class="num">Down</span><span class="lbl">Student Stress</span></div>
+      <div class="stat"><span class="num">Up</span><span class="lbl">Study Efficiency</span></div>
+      <div class="stat"><span class="num">Up</span><span class="lbl">Test Preparedness</span></div>
+      <div class="stat"><span class="num">Up</span><span class="lbl">Confidence</span></div>
+    </div>
+
+    <div class="quote">
+      <p>"Instead of students attempting to study on their own time and procrastinating, they now can be provided with effective plans that will allow them to grow as a student — while including breaks."</p>
+      <cite>— Study Buddy Team</cite>
+    </div>
+
+    <div class="split">
+      <div class="split-text">
+        <p class="eyebrow">Personal Growth</p>
+        <h2>What building this <span>taught us.</span></h2>
+        <p>This project changed how we think about technology. We saw firsthand how a well-designed app can reduce someone's stress, help them succeed, and teach them a skill — time management — that extends far beyond school. Being a technologist means being a problem solver for real people.</p>
+      </div>
+      <div class="split-img">
+        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80" alt="Students reflecting">
+      </div>
+    </div>
+
+    <p class="eyebrow">Future Scalability</p>
+    <h2>Where Study Buddy <span>could go next.</span></h2>
+    <p style="margin-bottom: 20px;">If we had another semester, here is what we would build next:</p>
+    <div class="cards">
+      <div class="card">
+        <h4>Standardized Test Plans</h4>
+        <p>Specific plans for the SAT, ACT, and AP exams with longer timelines and structured strategies.</p>
+      </div>
+      <div class="card">
+        <h4>Practice Problem Links</h4>
+        <p>Direct links to resources for each subject so students have the materials, not just the plan.</p>
+      </div>
+      <div class="card">
+        <h4>Progress Tracking</h4>
+        <p>A way to check off completed sessions and track improvement over time.</p>
+      </div>
+    </div>
+
+    <div class="highlight" style="margin-top: 36px;">
+      <strong>The bigger picture:</strong> The habit of planning, working in structured sessions, and reviewing weak spots applies to every area of life — not just school. That is what makes Study Buddy more than just an app.
+    </div>
+  </div>
+</div>
+
+<footer>
+  Study Buddy — AP CSP Service-Learning Project &nbsp;·&nbsp; Jack Richmond, Santi Gonzalez, Beckham Hyslop
+</footer>
+
+</body>
+</html>
